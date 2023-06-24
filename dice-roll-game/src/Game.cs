@@ -1,3 +1,4 @@
+using dice_roll_game.Enums;
 using dice_roll_game.Utils;
 
 namespace dice_roll_game;
@@ -6,45 +7,50 @@ public class Game
 {
     private int _targetNumber;
     private int _chances;
+    private GameStatus _gameStatus;
+
+    private const int SidesCount = 6;
+    private const int Chances = 3;
 
     private readonly Randomizer _randomizer;
-    private readonly UserInputHandler _userInputHandler;
 
-    public Game()
+    public Game(Randomizer randomizer)
     {
-        _randomizer = new Randomizer();
-        _userInputHandler = new UserInputHandler();
+        _randomizer = randomizer;
     }
 
     public void Start()
     {
-        _targetNumber = _randomizer.RandomNumberInRange(1, 7);
-        _chances = 3;
+        _targetNumber = _randomizer.RandomNumberInRange(1, SidesCount + 1);
+        _chances = Chances;
 
         Console.WriteLine("Dice rolled. Guess what number it shows in 3 tries.");
 
         bool isUserGuess = false;
 
-        while (_chances > 0 || !isUserGuess)
+        while (_chances > 0 && !isUserGuess)
         {
-            isUserGuess = _userInputHandler.IsUserGuess(_targetNumber);
+            isUserGuess = UserInputHandler.IsUserGuess(_targetNumber);
 
             if (isUserGuess)
             {
-                Console.WriteLine("You win");
-                Console.WriteLine("Press any key to exit");
+                _gameStatus = GameStatus.Won;
 
-                break;
+                return;
             }
 
             Console.WriteLine("Wrong number");
             _chances -= 1;
         }
 
-        if (_chances == 0)
-        {
-            Console.WriteLine("You lose");
-            Console.WriteLine("Press any key to exit");
-        }
+        _gameStatus = GameStatus.Lost;
+    }
+
+    public void PrintResultMessage()
+    {
+        string message = _gameStatus == GameStatus.Won ? "You win" : "You lose";
+
+        Console.WriteLine(message);
+        Console.WriteLine("Press any key to exit");
     }
 }

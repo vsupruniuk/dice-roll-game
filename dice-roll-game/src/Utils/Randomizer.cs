@@ -4,9 +4,9 @@ public class Randomizer
 {
     private readonly Random _random;
 
-    public Randomizer()
+    public Randomizer(Random random)
     {
-        _random = new Random();
+        _random = random;
     }
     
     public int RandomNumberInRange(int min, int max)

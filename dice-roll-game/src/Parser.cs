@@ -1,8 +1,8 @@
 namespace dice_roll_game;
 
-public class Parser
+public static class Parser
 {
-    public bool TryParseNumber(out int number)
+    public static bool TryParseNumber(out int number)
     {
         string userInput = Console.ReadLine();
 
