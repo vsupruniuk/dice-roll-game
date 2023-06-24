@@ -24,7 +24,7 @@ public class Game
         _targetNumber = _randomizer.RandomNumberInRange(1, SidesCount + 1);
         _chances = Chances;
 
-        Console.WriteLine("Dice rolled. Guess what number it shows in 3 tries.");
+        Console.WriteLine($"Dice rolled. Guess what number it shows in {Chances} tries.");
 
         bool isUserGuess = false;
 
